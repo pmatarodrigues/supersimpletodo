@@ -11,6 +11,8 @@ $ `git clone git@github.com:pmatarodrigues/supersimpletodo.git`
 #### Add folder to PATH
 (This next command depends on whether you use bash or zsh or any other shell)
 
+After entering **supersimpletodo** folder (`cd supersimpletodo`), execute one of the following commands:
+
 - Bash
 
 &emsp; $ `echo "export PATH=\$PATH:$(pwd)" >> ~/.bashrc`
