@@ -1,3 +1,3 @@
-module github.com/pmatarodrigues/supersimpletodo
+module github.com/pmatarodrigues/sst
 
 go 1.16
