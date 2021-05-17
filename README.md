@@ -28,11 +28,11 @@ $ `sst`
 
 #### Add item:
 
-$ `sst <project> "<item>" `
+$ `sst "<item>" <project>`
 
 - Example:
 
-&emsp; $ `sst "personal projects" "add docs to supersimpletodo"`
+&emsp; $ `sst "add docs to supersimpletodo" "personal projects"`
 
 
 ## Development

@@ -7,6 +7,10 @@ import (
 	"os"
 )
 
+var (
+	removeKey *int
+)
+
 // parameters: filename
 // returns: saved items
 func saveToFile(items map[string][]string, file string) {
@@ -53,9 +57,9 @@ func readFromFile(file string) map[string][]string {
 
 func printItems(items map[string][]string) {
 	for project, list := range items {
-		fmt.Printf("\n------" + project + "------")
+		fmt.Printf("\n------------" + project + "------------\n")
 		for key, item := range list {
-			fmt.Printf("\n[%d]- %s", key, item)
+			fmt.Printf("%d > %s \n", key, item)
 		}
 	}
 }
@@ -71,14 +75,7 @@ func isFlagPassed(name string) bool {
 	return passed
 }
 
-func flagCheck(removeKey int) {
-	// changes the value of the variable
-	flag.IntVar(&removeKey, "r", -1, "Key to remove")
-	flag.Parse()
-}
-
 func removeItem(removeKey int, project string, items map[string][]string) map[string][]string {
-	fmt.Println(items[project])
 	items[project] = append(items[project][:removeKey], items[project][removeKey+1:]...)
 
 	// delete if project is empty
@@ -92,32 +89,32 @@ func main() {
 	items := make(map[string][]string)
 	file := "./todo"
 	items = readFromFile(file)
-	var removeKey int
+	// changes the value of the variable
+	removeKey = flag.Int("rm", -1, "Item key to remove")
 
 	// get parameters passed
 	// (not counting file name)
 	data := os.Args[1:]
 	// check if parameters were passed
 	if len(data) > 0 {
-		project := data[0]
-		fmt.Println("len")
-
-		// r -> {project} -r {key} -> remove key from project
+		flag.Parse()
+		isToRemove := isFlagPassed("rm")
+		// r -> -r {key} {project} -> remove key from project
 		// check if it's to remove or add item
-		if true {
-			fmt.Println("len")
-			flagCheck(removeKey)
-			items = removeItem(removeKey, project, items)
+		if isToRemove {
+			project := data[2]
+			items = removeItem(*removeKey, project, items)
 		} else {
-			// ./sstodo "project" "do this do that"
-			newItem := data[1]
+			// ./sstodo "do this do that" "project"
+			newItem := data[0]
+			project := data[1]
 
 			// append item to project
 			items[project] = append(items[project], newItem)
 		}
 		saveToFile(items, file)
 	} else {
-		fmt.Printf("supersimpletodo")
+		fmt.Printf("______________# sst #______________")
 		printItems(items)
 	}
 }
