@@ -99,7 +99,7 @@ func removeItem(removeKey int, project string, items map[string][]string) map[st
 
 func main() {
 	items := make(map[string][]string)
-	file := "./todo"
+	file := "./.todo"
 	items = readFromFile(file)
 	// changes the value of the variable
 	removeKey = flag.Int("rm", -1, "Item key to Remove")
