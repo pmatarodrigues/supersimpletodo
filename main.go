@@ -8,7 +8,8 @@ import (
 )
 
 var (
-	removeKey *int
+	removeKey   *int
+	listProject *string
 )
 
 // parameters: filename
@@ -64,6 +65,17 @@ func printItems(items map[string][]string) {
 	}
 }
 
+func printItemsFromProject(projectToList string, items map[string][]string) {
+	for project, list := range items {
+		if project == projectToList {
+			fmt.Printf("\n------------" + project + "------------\n")
+			for key, item := range list {
+				fmt.Printf("%d > %s \n", key, item)
+			}
+		}
+	}
+}
+
 // check if some flag was provided on cli
 func isFlagPassed(name string) bool {
 	passed := false
@@ -90,7 +102,8 @@ func main() {
 	file := "./todo"
 	items = readFromFile(file)
 	// changes the value of the variable
-	removeKey = flag.Int("rm", -1, "Item key to remove")
+	removeKey = flag.Int("rm", -1, "Item key to Remove")
+	listProject = flag.String("p", "", "Project to List")
 
 	// get parameters passed
 	// (not counting file name)
@@ -99,13 +112,17 @@ func main() {
 	if len(data) > 0 {
 		flag.Parse()
 		isToRemove := isFlagPassed("rm")
+		isToListProject := isFlagPassed("p")
 		// r -> -r {key} {project} -> remove key from project
 		// check if it's to remove or add item
-		if isToRemove {
+		if isToListProject {
+			fmt.Printf("______________# sst #______________")
+			printItemsFromProject(*listProject, items)
+		} else if isToRemove {
 			project := data[2]
 			items = removeItem(*removeKey, project, items)
 		} else {
-			// ./sstodo "do this do that" "project"
+			// ./sst "do this do that" "project"
 			newItem := data[0]
 			project := data[1]
 
