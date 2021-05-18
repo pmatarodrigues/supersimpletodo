@@ -40,6 +40,7 @@ func readFromFile(file string) map[string][]string {
 	// check if file exists
 	exist := fileExists(file)
 	if !exist {
+		fmt.Print("Creating TODO file... \n")
 		os.Create(file)
 	}
 	// open db file
@@ -99,7 +100,11 @@ func removeItem(removeKey int, project string, items map[string][]string) map[st
 
 func main() {
 	items := make(map[string][]string)
-	file := "./.todo"
+	userDirectory, err := os.UserHomeDir()
+	if err != nil {
+		panic(err)
+	}
+	file := userDirectory + "/.supersimpletodo"
 	items = readFromFile(file)
 	// changes the value of the variable
 	removeKey = flag.Int("rm", -1, "Item key to Remove")
