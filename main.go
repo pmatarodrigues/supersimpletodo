@@ -5,6 +5,7 @@ import (
 	"flag"
 	"fmt"
 	"os"
+	"time"
 )
 
 var (
@@ -130,9 +131,10 @@ func main() {
 			// ./sst "do this do that" "project"
 			newItem := data[0]
 			project := data[1]
+			creationDate := time.Now()
 
 			// append item to project
-			items[project] = append(items[project], newItem)
+			items[project] = append(items[project], "["+creationDate.Format("02-01-2006 15:04")+"] "+newItem)
 		}
 		saveToFile(items, file)
 	} else {
